@@ -12,6 +12,7 @@ cp config/get_currency_balances/.env.example config/get_currency_balances/.env
 This entire repository is designed to be run easily under Docker using docker-compose. With both Docker and docker-compose installed, clone this repository, enter the folder and run:
 
 ```
+docker network create -d bridge --subnet 192.168.0.0/24 --gateway 192.168.0.1 eosio_api_network
 docker-compose build
 docker-compose up -d
 ```
