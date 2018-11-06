@@ -8,12 +8,14 @@ __pycache__/
 
 # Distribution / packaging
 .Python
+bin/
 build/
 develop-eggs/
 dist/
 downloads/
 eggs/
 .eggs/
+include/
 lib/
 lib64/
 parts/
@@ -42,6 +44,7 @@ htmlcov/
 .coverage.*
 .cache
 nosetests.xml
+pip-selfcheck.json
 coverage.xml
 *.cover
 .hypothesis/

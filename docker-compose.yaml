@@ -1,0 +1,12 @@
+version: '3'
+services:
+  get_currency_balances:
+    build: ./services/get_currency_balances
+    env_file:
+      - ./config/.env
+      - ./config/get_currency_balances/.env
+    ports:
+      - "8901:8000"
+    restart: on-failure
+    volumes:
+      - .:/src
