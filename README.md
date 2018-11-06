@@ -19,6 +19,12 @@ docker-compose up -d
 
 The processes specified in the `docker-compose.yaml` file will be automatically configured and started.
 
+From within the same project folder, you can tail the logs via:
+
+```
+docker-compose logs -f --tail="200"
+```
+
 # Ports
 
 Each API service will bind to a different IP address on the localhost, which can then be used via a proxy to redirect specific API requests to these new services.
