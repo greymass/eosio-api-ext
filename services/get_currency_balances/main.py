@@ -12,17 +12,17 @@ def get_tokens():
     global tokens
     # Request all tokens from the customtokens smart contract
     r = requests.post(os.environ['UPSTREAM_API'] + '/v1/chain/get_table_rows', json={
-        "code": "customtokens",
-        "json": True,
-        "limit": 1000,
-        "scope": "customtokens",
-        "table": "tokens"
+        'code': 'customtokens',
+        'json': True,
+        'limit': 1000,
+        'scope': 'customtokens',
+        'table': 'tokens'
     })
     if r.status_code == 200:
         temp = []
         # Iterate over rows and build the tuple
         for token in r.json().get('rows'):
-            symbol = token.get('customasset').split(" ")[1]
+            symbol = token.get('customasset').split(' ')[1]
             temp.append((symbol, token.get('customtoken')))
         # Set the global cache
         tokens = temp
@@ -46,9 +46,9 @@ class GetCurrencyBalances:
             for (symbol, code) in targetTokens:
                 # Request balance from upstream API
                 r = requests.post(os.environ['UPSTREAM_API'] + '/v1/chain/get_currency_balance', json={
-                    "account": request.get('account'),
-                    "code": code,
-                    "symbol": symbol
+                    'account': request.get('account'),
+                    'code': code,
+                    'symbol': symbol
                 })
                 # On success, append to balances
                 if r.status_code == 200:
