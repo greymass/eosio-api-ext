@@ -33,20 +33,20 @@ class GetCurrencyBalances:
         request = json.loads(req.stream.read())
         # Establish session for retrieval of all balances
         with requests.Session() as session:
-          balances = []
-          # Iterate and request each tokens balance
-          for (symbol, code) in tokens:
-              # Request balance from upstream API
-              r = requests.post(os.environ['UPSTREAM_API'] + '/v1/chain/get_currency_balance', json={
-                  "account": request.get('account'),
-                  "code": code,
-                  "symbol": symbol
-              })
-              # On success, append to balances
-              if r.status_code == 200:
-                  balances = balances + r.json()
-        # Response with list
-        resp.body = json.dumps(balances)
+            balances = []
+            # Iterate and request each tokens balance
+            for (symbol, code) in tokens:
+                # Request balance from upstream API
+                r = requests.post(os.environ['UPSTREAM_API'] + '/v1/chain/get_currency_balance', json={
+                    "account": request.get('account'),
+                    "code": code,
+                    "symbol": symbol
+                })
+                # On success, append to balances
+                if r.status_code == 200:
+                    balances = balances + r.json()
+                    # Response with list
+                    resp.body = json.dumps(balances)
 
 # Load the initial tokens on startup
 get_tokens()
