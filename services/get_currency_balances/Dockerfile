@@ -5,4 +5,4 @@ RUN pip3 install -r /tmp/requirements.txt
 
 WORKDIR /src/services/get_currency_balances
 
-CMD ["gunicorn", "-c", "config.py", "main:app"]
+CMD ["gunicorn", "--reload", "-c", "config.py", "main:app"]
