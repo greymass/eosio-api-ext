@@ -1,3 +1,7 @@
+# Prerelease
+
+The APIs provided here are still in flux based on feedback being provided by the developer community.
+
 # Configuration
 
 Each `.env.example` file within the `./configs` folder and subfolders must be copied and potentially modified as an `.env` in the same folder.
@@ -31,7 +35,7 @@ Each API service will bind to a different IP address on the localhost, which can
 
 - `/v1/chain/get_currency_balances` runs on port 8901
 
-# nginx configuration
+### nginx configuration
 
 Within an nginx server block, simply add a new entry that redirects to the new local API service.
 
