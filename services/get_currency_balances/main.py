@@ -52,7 +52,13 @@ class GetCurrencyBalances:
                 })
                 # On success, append to balances
                 if r.status_code == 200:
-                    balances = balances + r.json()
+                    for token in r.json():
+                        amount, symbol = token.split(' ')
+                        balances.append({
+                            'amount': float(amount),
+                            'code': code,
+                            'symbol': symbol,
+                        })
                     # Response with list
                     resp.body = json.dumps(balances)
 
