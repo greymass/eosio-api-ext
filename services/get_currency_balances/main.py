@@ -34,8 +34,16 @@ class GetCurrencyBalances:
         # Establish session for retrieval of all balances
         with requests.Session() as session:
             balances = []
+            # Determine which tokens to load
+            targetTokens = tokens
+            # If a tokens array is specified in the request, use it
+            if 'tokens' in request:
+                targetTokens = []
+                for token in request.get('tokens'):
+                    contract, symbol = token.split(':')
+                    targetTokens.append((symbol, contract))
             # Iterate and request each tokens balance
-            for (symbol, code) in tokens:
+            for (symbol, code) in targetTokens:
                 # Request balance from upstream API
                 r = requests.post(os.environ['UPSTREAM_API'] + '/v1/chain/get_currency_balance', json={
                     "account": request.get('account'),
