@@ -1,3 +1,5 @@
+import asyncio
+import concurrent.futures
 import json
 import requests
 import os
@@ -5,18 +7,26 @@ import sys
 import falcon
 
 from apscheduler.schedulers.background import BackgroundScheduler
+from functools import partial
 
 tokens = []
+
+# Load Environmental Variables
+default_tokens_code = os.environ['DEFAULT_CONTRACT_CODE']
+default_tokens_scope = os.environ['DEFAULT_CONTRACT_SCOPE']
+default_tokens_table = os.environ['DEFAULT_CONTRACT_TABLE']
+max_workers = int(os.environ['GET_UPSTREAM_BALANCES_WORKERS'])
+upstream = os.environ['UPSTREAM_API']
 
 def get_tokens():
     global tokens
     # Request all tokens from the customtokens smart contract
-    r = requests.post(os.environ['UPSTREAM_API'] + '/v1/chain/get_table_rows', json={
-        'code': 'customtokens',
+    r = requests.post(upstream + '/v1/chain/get_table_rows', json={
+        'code': default_tokens_code,
         'json': True,
         'limit': 1000,
-        'scope': 'customtokens',
-        'table': 'tokens'
+        'scope': default_tokens_scope,
+        'table': default_tokens_table
     })
     if r.status_code == 200:
         temp = []
@@ -26,6 +36,41 @@ def get_tokens():
             temp.append((symbol, token.get('customtoken')))
         # Set the global cache
         tokens = temp
+
+async def get_balances(account, targetTokens):
+    with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as pool:
+        loop = asyncio.get_event_loop()
+        futures = []
+        # Create a future execution of the post request in the futures pool
+        for (symbol, code) in targetTokens:
+            futures.append(
+                loop.run_in_executor(
+                    pool,
+                    partial(
+                        requests.post,
+                        upstream + '/v1/chain/get_currency_balance',
+                        json={
+                            "account": account,
+                            "code": code,
+                            "symbol": symbol
+                        }
+                    )
+                )
+            )
+        balances = []
+        # Await for all processes to complete
+        for r in await asyncio.gather(*futures):
+            if r.status_code == 200:
+                for token in r.json():
+                    amount, symbol = token.split(' ')
+                    balances.append({
+                        'amount': float(amount),
+                        'code': code,
+                        'symbol': symbol,
+                    })
+            pass
+        # Return balances
+        return balances
 
 class GetCurrencyBalances:
     def on_post(self, req, resp):
@@ -42,25 +87,11 @@ class GetCurrencyBalances:
                 for token in request.get('tokens'):
                     contract, symbol = token.split(':')
                     targetTokens.append((symbol, contract))
-            # Iterate and request each tokens balance
-            for (symbol, code) in targetTokens:
-                # Request balance from upstream API
-                r = requests.post(os.environ['UPSTREAM_API'] + '/v1/chain/get_currency_balance', json={
-                    'account': request.get('account'),
-                    'code': code,
-                    'symbol': symbol
-                })
-                # On success, append to balances
-                if r.status_code == 200:
-                    for token in r.json():
-                        amount, symbol = token.split(' ')
-                        balances.append({
-                            'amount': float(amount),
-                            'code': code,
-                            'symbol': symbol,
-                        })
-                    # Response with list
-                    resp.body = json.dumps(balances)
+            # Launch async event loop to gather balances
+            loop = asyncio.get_event_loop()
+            balances = loop.run_until_complete(get_balances(request.get('account'), targetTokens))
+            # Server the response
+            resp.body = json.dumps(balances)
 
 # Load the initial tokens on startup
 get_tokens()
