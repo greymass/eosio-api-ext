@@ -198,7 +198,7 @@ refresh_endpoints()
 
 # Schedule tokens to be refreshed from smart contract every minute
 scheduler = BackgroundScheduler()
-scheduler.add_job(check_endpoints, 'interval', minutes=os.environ['DEFAULT_ENDPOINT_REFRESH'], id='check_endpoints')
+scheduler.add_job(check_endpoints, 'interval', minutes=int(os.environ['DEFAULT_ENDPOINT_REFRESH']), id='check_endpoints')
 scheduler.start()
 
 # Launch falcon API
