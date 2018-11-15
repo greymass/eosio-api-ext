@@ -8,6 +8,7 @@ Each `.env.example` file within the `./configs` folder and subfolders must be co
 
 ```
 cp config/.env.example config/.env
+cp config/get_available_endpoints/.env.example config/get_available_endpoints/.env
 cp config/get_currency_balances/.env.example config/get_currency_balances/.env
 ```
 
@@ -33,6 +34,7 @@ docker-compose logs -f --tail="200"
 
 Each API service will bind to a different IP address on the localhost, which can then be used via a proxy to redirect specific API requests to these new services.
 
+- `/v1/api/get_available_endpoints` runs on port 8900
 - `/v1/chain/get_currency_balances` runs on port 8901
 
 ### nginx configuration
@@ -42,6 +44,10 @@ Within an nginx server block, simply add a new entry that redirects to the new l
 For example, to run the new `get_currency_balances` API, add a new `location` entry to the `server` block of your host:
 
 ```
+location /v1/api/get_available_endpoints$ {
+    proxy_pass http://127.0.0.1:8900;
+}
+
 location /v1/chain/get_currency_balances$ {
     proxy_pass http://127.0.0.1:8901;
 }
