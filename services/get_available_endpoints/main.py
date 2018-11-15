@@ -180,7 +180,7 @@ async def check_endpoints():
                     if check == 'len' and field == '.' and len(data) > 0:
                         endpoints[path] = True;
                     # Check a property arrays length
-                    elif check == 'len' and data[field] and len(data[field]) > 0:
+                    elif check == 'len' and field in data and len(data[field]) > 0:
                         endpoints[path] = True;
                     # Check existence of field
                     elif check == 'exists' and field in data:
