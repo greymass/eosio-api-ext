@@ -113,14 +113,14 @@ known_endpoints = [
     ('/v1/history/get_actions', {
         'account_name': 'teamgreymass',
         'pos': -1,
-        'offset': 20
+        'offset': -20
     }, [
         ('actions', 'len')
     ]),
     ('/v1/history/get_transaction', {
         'id': '1bc395276f4bdde15a7992e50e61938457673e861d9480b51762b6e4457e5b79'
     }, [
-        ('test', 'exists')
+        ('trx', 'exists')
     ]),
     ('/v1/history/get_key_accounts', { 'public_key': 'EOS7UgFowoVJ7ZAnkndjGeZBuiN1KgqsDFWuYgAxAazoFRzqzYJ1i' }, [
         ('account_names', 'exists')
