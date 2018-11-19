@@ -204,7 +204,7 @@ class GetAvailableEndpoints:
     def on_get(self, req, resp):
         self.on_post(req, resp);
     def on_post(self, req, resp):
-        resp.body = json.dumps(endpoints)
+        resp.body = json.dumps(dict(sorted(endpoints.items())))
 
 # Load the initial endpoints on startup
 refresh_endpoints()
