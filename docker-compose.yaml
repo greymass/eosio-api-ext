@@ -1,5 +1,17 @@
 version: '3'
 services:
+  get_accounts:
+    build: ./services/get_accounts
+    env_file:
+        - ./config/.env
+        - ./config/get_accounts/.env
+    networks:
+        - eosio_api_network
+    ports:
+        - "8902:8000"
+    restart: on-failure
+    volumes:
+        - .:/src
   get_available_endpoints:
     build: ./services/get_available_endpoints
     env_file:
@@ -9,6 +21,18 @@ services:
         - eosio_api_network
     ports:
         - "8900:8000"
+    restart: on-failure
+    volumes:
+        - .:/src
+  get_blocks:
+    build: ./services/get_blocks
+    env_file:
+        - ./config/.env
+        - ./config/get_blocks/.env
+    networks:
+        - eosio_api_network
+    ports:
+        - "8903:8000"
     restart: on-failure
     volumes:
         - .:/src
