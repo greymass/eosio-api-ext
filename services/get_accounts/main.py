@@ -11,7 +11,7 @@ from functools import partial
 
 # Load Environmental Variables
 max_workers = int(os.environ['GET_ACCOUNTS_UPSTREAM_WORKERS'])
-max_results = 1 #int(os.environ['GET_ACCOUNTS_LIMIT'])
+max_results = int(os.environ['GET_ACCOUNTS_LIMIT'])
 upstream = os.environ['UPSTREAM_API']
 
 async def get_accounts(accounts):
