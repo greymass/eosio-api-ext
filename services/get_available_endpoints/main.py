@@ -13,6 +13,17 @@ endpoints = {}
 head_block = False
 
 known_endpoints = [
+    # Additional APIs provided by eosio-api-ext
+    ('/v1/chain/get_accounts', { 'accounts': ['developjesta', 'solveforanyx'] }, [
+        ('.', 'len')
+    ]),
+    ('/v1/chain/get_blocks', { 'blocks': [1, 2] }, [
+        ('.', 'len')
+    ]),
+    ('/v1/chain/get_currency_balances', { 'account': 'developjesta' }, [
+        ('.', 'len')
+    ]),
+    # Default EOSIO APIs
     ('/v1/chain/get_info', {}, [
         ('chain_id', 'exists')
     ]),
