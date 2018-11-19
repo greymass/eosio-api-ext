@@ -190,6 +190,8 @@ async def check_endpoints():
             pass
 
 class GetAvailableEndpoints:
+    def on_get(self, req, resp):
+        self.on_post(req, resp);
     def on_post(self, req, resp):
         resp.body = json.dumps(endpoints)
 
