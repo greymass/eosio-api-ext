@@ -147,7 +147,7 @@ upstream = os.environ['UPSTREAM_API']
 
 def refresh_endpoints():
     loop = asyncio.get_event_loop()
-    balances = loop.run_until_complete(check_endpoints())
+    loop.run_until_complete(check_endpoints())
 
 def update_head_block():
     global head_block
