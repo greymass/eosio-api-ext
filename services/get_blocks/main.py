@@ -6,7 +6,6 @@ import os
 import sys
 import falcon
 
-from apscheduler.schedulers.background import BackgroundScheduler
 from functools import partial
 
 # Load Environmental Variables
