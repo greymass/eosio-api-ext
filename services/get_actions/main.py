@@ -1,4 +1,4 @@
-import json
+import ujson
 import requests
 import os
 import falcon
@@ -10,7 +10,7 @@ history_per_account = int(os.environ['HISTORY_PER_ACCOUNT'])
 
 class GetActions:
     def on_post(self, req, resp):
-        request = json.loads(req.stream.read())
+        request = ujson.loads(req.stream.read())
         # Retrieve Variables
         account_name = request.get('account_name')
         offset = int(request.get('offset'))
