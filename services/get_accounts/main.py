@@ -41,6 +41,8 @@ async def get_accounts(accounts):
         return results
 
 class GetAccounts:
+    def on_get(self, req, resp):
+        self.on_post(req, resp);
     def on_post(self, req, resp):
         # Process the request to retrieve the account name
         request = json.loads(req.stream.read())

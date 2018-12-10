@@ -9,6 +9,8 @@ limited_api = os.environ['GET_ACTIONS_LIMITED_ENDPOINT']
 history_per_account = int(os.environ['HISTORY_PER_ACCOUNT'])
 
 class GetActions:
+    def on_get(self, req, resp):
+        self.on_post(req, resp);
     def on_post(self, req, resp):
         request = ujson.loads(req.stream.read())
         # Retrieve Variables
