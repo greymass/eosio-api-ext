@@ -41,10 +41,8 @@ async def get_balances(account, targetTokens):
     with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as pool:
         loop = asyncio.get_event_loop()
         futures = []
-        mapping = {}
         # Create a future execution of the post request in the futures pool
         for (symbol, code) in targetTokens:
-            mapping[symbol] = code
             futures.append(
                 loop.run_in_executor(
                     pool,
@@ -64,10 +62,11 @@ async def get_balances(account, targetTokens):
         for r in await asyncio.gather(*futures):
             if r.status_code == 200:
                 for token in r.json():
+                    body = json.loads(r.request.body)
                     amount, symbol = token.split(' ')
                     balances.append({
                         'amount': amount,
-                        'code': mapping[symbol],
+                        'code': body['code'],
                         'symbol': symbol,
                     })
             pass
