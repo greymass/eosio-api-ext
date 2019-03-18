@@ -36,6 +36,18 @@ services:
     restart: on-failure
     volumes:
         - .:/src
+  get_supported_apis:
+    build: ./services/get_supported_apis
+    env_file:
+        - ./config/.env
+        - ./config/get_supported_apis/.env
+    networks:
+        - eosio_api_network
+    ports:
+        - "8906:8000"
+    restart: on-failure
+    volumes:
+        - .:/src
   get_blocks:
     build: ./services/get_blocks
     env_file:
