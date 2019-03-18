@@ -44,7 +44,7 @@ Each API service will bind to a different IP address on the localhost, which can
 - `/v1/chain/get_currency_balances` runs on port 8901
 - `/v1/chain/get_accounts` runs on port 8902
 - `/v1/chain/get_blocks` runs on port 8903
-
+- `/v1/node/get_supported_apis` runs on port 8905
 
 ### nginx configuration
 
@@ -67,5 +67,9 @@ location /v1/chain/get_accounts$ {
 
 location /v1/chain/get_blocks$ {
     proxy_pass http://127.0.0.1:8903;
+}
+
+location /v1/node/get_supported_apis$ {
+    proxy_pass http://127.0.0.1:8905;
 }
 ```
