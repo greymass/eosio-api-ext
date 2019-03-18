@@ -36,7 +36,6 @@ def refresh_endpoints():
         endpoints = r.json()
     loop = asyncio.get_event_loop()
     loop.run_until_complete(check_endpoints())
-    pprint(endpoints)
 
 def update_head_block():
     global head_block
@@ -105,4 +104,4 @@ scheduler.start()
 
 # Launch falcon API
 app = falcon.API()
-app.add_route('/v1/api/get_supported_apis', GetSupportedApis())
+app.add_route('/v1/node/get_supported_apis', GetSupportedApis())
