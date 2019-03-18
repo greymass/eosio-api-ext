@@ -44,7 +44,7 @@ services:
     networks:
         - eosio_api_network
     ports:
-        - "8906:8000"
+        - "8905:8000"
     restart: on-failure
     volumes:
         - .:/src
