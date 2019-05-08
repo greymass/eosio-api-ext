@@ -31,7 +31,7 @@ upstream = os.environ['UPSTREAM_API']
 
 def refresh_endpoints():
     global endpoints
-    r = requests.post(upstream + '/v1/node/get_supported_apis')
+    r = requests.post(upstream + '/v1/node/get_supported_apis_source')
     if r.status_code == 200:
         endpoints = r.json()
     loop = asyncio.get_event_loop()
