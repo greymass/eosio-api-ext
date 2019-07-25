@@ -40,7 +40,7 @@ async def get_blocks(blocks):
         # Return results
         return results
 
-class GetAccounts:
+class GetBlocks:
     def on_get(self, req, resp):
         self.on_post(req, resp);
     def on_post(self, req, resp):
@@ -66,4 +66,4 @@ class GetAccounts:
 
 # Launch falcon API
 app = falcon.API()
-app.add_route('/v1/chain/get_blocks', GetAccounts())
+app.add_route('/v1/chain/get_blocks', GetBlocks())
