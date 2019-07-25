@@ -25,6 +25,9 @@ known_endpoints = [
     ('/v1/chain/get_currency_balances', { 'account': 'developjesta' }, [
         ('.', 'len')
     ]),
+    ('/v1/history/get_keys_accounts', { 'public_keys': ['EOS81fk5ACMV4VTW9j2HGsVQaqnB7nhjCBNSpFax2Sp9PuEzf1eJQ'] }, [
+        ('account_names', 'exists')
+    ]),
 ]
 
 upstream = os.environ['UPSTREAM_API']

@@ -12,6 +12,18 @@ services:
     restart: on-failure
     volumes:
         - .:/src
+  get_keys_accounts:
+    build: ./services/get_keys_accounts
+    env_file:
+        - ./config/.env
+        - ./config/get_keys_accounts/.env
+    networks:
+        - eosio_api_network
+    ports:
+        - "8904:8000"
+    restart: on-failure
+    volumes:
+        - .:/src
   get_available_endpoints:
     build: ./services/get_available_endpoints
     env_file:
@@ -60,6 +72,7 @@ services:
     restart: on-failure
     volumes:
         - .:/src
+
 
 networks:
     eosio_api_network:
