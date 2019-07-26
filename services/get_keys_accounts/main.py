@@ -34,6 +34,7 @@ async def get_keys_accounts(public_keys):
             )
         results = {
             'account_names': [],
+            'permissions': [],
             'map': {}
         }
         # Await for all processes to complete
@@ -53,7 +54,8 @@ async def get_keys_accounts(public_keys):
                         for key in permission['required_auth']['keys']:
                             if key['key'] == body['public_key']:
                                 account_authority = account_name + '@' + permission['perm_name']
-                                results['account_names'].append(account_authority)
+                                results['account_names'].append(account_name)
+                                results['permissions'].append(account_authority)
                                 if body['public_key'] in results['map']:
                                     results['map'][body['public_key']].append(account_authority)
                                 else:
